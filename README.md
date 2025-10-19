@@ -52,7 +52,3 @@ Students will now be restricted to starting a new attempt only within the define
 ## License
 
 This plugin is licensed under [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.html).
-
----
-
-Made with ❤️ for Moodle educators.
