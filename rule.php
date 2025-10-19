@@ -79,6 +79,10 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * Checks if a new attempt should be prevented.
      *
      * {@inheritdoc}
+     * @param int $numprevattempts the number of previous attempts this user has made.
+     * @param object $lastattempt information about the user's last completed attempt.
+     * @return string false if access should be allowed, a message explaining the
+     *       reason if access should be prevented.
      */
     public function prevent_new_attempt($numprevattempts, $lastattempt) {
         $quiz = $this->quiz;
@@ -99,6 +103,10 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * Checks if the quiz is finished due to the start time limit.
      *
      * {@inheritdoc}
+     * @param int $numprevattempts the number of previous attempts this user has made.
+     * @param object $lastattempt information about the user's last completed attempt.
+     * @return bool true if this rule means that this user will never be allowed another
+     *  attempt at this quiz.
      */
     public function is_finished($numprevattempts, $lastattempt): bool {
         $quiz = $this->quiz;
@@ -133,6 +141,8 @@ class quizaccess_startlimit extends quiz_access_rule_base {
 
     /**
      * {@inheritdoc}
+     * @param mod_quiz_mod_form $quizform the quiz settings form that is being built.
+     * @param MoodleQuickForm $mform the wrapped MoodleQuickForm.
      */
     public static function add_settings_form_fields(mod_quiz_mod_form $quizform, MoodleQuickForm $mform) {
         $mform->addElement('duration', 'startlimit', get_string('startlimit', 'quizaccess_startlimit'), [
@@ -143,6 +153,8 @@ class quizaccess_startlimit extends quiz_access_rule_base {
 
     /**
      * {@inheritdoc}
+     * @param int $quizid the id of the quiz we are loading settings for. This
+     *      can also be accessed as quiz.id in the SQL. (quiz is a table alisas for {quiz}.)
      */
     public static function get_settings_sql($quizid) {
         return ['qa_sl.startlimit', 'LEFT JOIN {quizaccess_startlimit} qa_sl ON qa_sl.quizid = quiz.id', []];
@@ -150,6 +162,8 @@ class quizaccess_startlimit extends quiz_access_rule_base {
 
     /**
      * {@inheritdoc}
+     * @param object $quiz the data from the quiz form, including $quiz->id
+     *       which is the id of the quiz being saved.
      */
     public static function save_settings($quiz) {
         global $DB;
@@ -169,6 +183,8 @@ class quizaccess_startlimit extends quiz_access_rule_base {
 
     /**
      * {@inheritdoc}
+     * @param object $quiz the data from the database, including $quiz->id
+     *       which is the id of the quiz being deleted.
      */
     public static function delete_settings($quiz) {
         global $DB;
