@@ -44,7 +44,7 @@ Students will now be restricted to starting a new attempt only within the define
 - PHP 7.4 or higher
 
 
-Translations available
+## Translations available
 
 - Persian (fa)
 
