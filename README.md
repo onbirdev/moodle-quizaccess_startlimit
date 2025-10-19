@@ -1,6 +1,5 @@
 # Quiz Access Start Limit
 
----
 
 ## Overview
 
@@ -8,7 +7,6 @@ The **Quiz Access Start Limit** plugin allows administrators to restrict when st
 
 For example, you can configure a quiz so that students have **only 10 minutes to start a new attempt** once it opens, ensuring fair and controlled access for all participants.
 
----
 
 ## Features
 
@@ -17,7 +15,6 @@ For example, you can configure a quiz so that students have **only 10 minutes to
 - Applies to all students attempting the quiz.
 - Seamlessly integrates with standard quiz settings.
 
----
 
 ## Installation via Moodle UI
 
@@ -30,7 +27,6 @@ For example, you can configure a quiz so that students have **only 10 minutes to
 
 The plugin is now ready to use.
 
----
 
 ## Configuration
 
@@ -41,20 +37,17 @@ The plugin is now ready to use.
 
 Students will now be restricted to starting a new attempt only within the defined time window.
 
----
 
 ## Requirements
 
 - Moodle 3.11 or higher
 - PHP 7.4 or higher
 
----
 
 Translations available
 
 - Persian (fa)
 
----
 
 ## License
 
