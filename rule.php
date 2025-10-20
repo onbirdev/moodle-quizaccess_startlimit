@@ -87,7 +87,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
     public function prevent_new_attempt($numprevattempts, $lastattempt) {
         $quiz = $this->quiz;
 
-        if (empty($quiz->timeopen) || empty($record->startlimit)) {
+        if (empty($quiz->timeopen) || empty($this->startlimit)) {
             return false;
         }
 
@@ -111,7 +111,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
     public function is_finished($numprevattempts, $lastattempt): bool {
         $quiz = $this->quiz;
 
-        if (empty($quiz->timeopen) || empty($record->startlimit)) {
+        if (empty($quiz->timeopen) || empty($this->startlimit)) {
             return false;
         }
 
