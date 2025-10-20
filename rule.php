@@ -93,7 +93,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
 
         $deadline = $quiz->timeopen + $this->startlimit;
         if ($this->timenow > $deadline) {
-            return get_string('starttime_expired', 'quizaccess_startlimit');
+            return get_string('starttimeexpired', 'quizaccess_startlimit');
         }
 
         return false;
