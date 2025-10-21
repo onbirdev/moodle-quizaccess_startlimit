@@ -26,15 +26,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Quiz start time limit';
-$string['privacy:metadata'] = 'This plugin does not store any personal data of users.';
+$string['pluginname'] = 'Zeitlimit für Quizstart';
+$string['privacy:metadata'] = 'Dieses Plugin speichert keine personenbezogenen Daten der Nutzer.';
 
-$string['startlimit'] = 'Start time limit';
-$string['startlimit_help'] = 'When enabled, participants can only start the quiz within a specified period after it becomes available.
+$string['startlimit'] = 'Startzeitlimit';
+$string['startlimit_help'] = 'Wenn aktiviert, können Teilnehmer das Quiz nur innerhalb eines bestimmten Zeitraums nach der Freigabe starten.
 
-Notes:
-- This restriction only applies if the quiz open time is set.
-- This setting does not affect ongoing attempts.';
+Hinweise:
+- Diese Einschränkung gilt nur, wenn eine Startzeit für das Quiz festgelegt ist.
+- Diese Einstellung betrifft laufende Versuche nicht.';
 
-$string['starttimeexpired'] = 'The time limit for starting this quiz has expired.';
-$string['starttimewithin'] = 'Maximum time to start the quiz: {$a} after it opens.';
+$string['starttimeexpired'] = 'Die Frist zum Starten dieses Quiz ist abgelaufen.';
+$string['starttimewithin'] = 'Maximale Zeit zum Starten des Quiz: {$a} nach Freigabe.';
