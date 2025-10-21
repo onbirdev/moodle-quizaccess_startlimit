@@ -32,7 +32,7 @@ The plugin is now ready to use.
 
 1. Go to a quiz and click **Edit quiz**.
 2. Open **Extra restrictions on attempts**.
-3. Locate the **Start Limit** setting and define the allowed time in minutes.
+3. Locate the **Start time limit** setting and define the allowed time.
 4. Save your changes.
 
 Students will now be restricted to starting a new attempt only within the defined time window.
@@ -46,7 +46,16 @@ Students will now be restricted to starting a new attempt only within the define
 
 ## Translations available
 
+- English (en)
 - Persian (fa)
+- Spanish (es)
+- French (fr)
+- German (de)
+- Russian (ru)
+- Chinese (zh_cn)
+- Brazilian Portuguese (pt_br)
+- Turkish (tr)
+- Arabic (ar)
 
 
 ## License
