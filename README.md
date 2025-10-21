@@ -1,9 +1,9 @@
-# Quiz Access Start Limit
+# Quiz Start Time Limit
 
 
 ## Overview
 
-The **Quiz Access Start Limit** plugin allows administrators to restrict when students can **start a new attempt** after the quiz becomes available.
+The **Quiz Start Time Limit** plugin allows administrators to restrict when students can **start a new attempt** after the quiz becomes available.
 
 For example, you can configure a quiz so that students have **only 10 minutes to start a new attempt** once it opens, ensuring fair and controlled access for all participants.
 
