@@ -32,7 +32,7 @@ require_once($CFG->dirroot . '/mod/quiz/accessrule/startlimit/rule.php');
 /**
  * Unit test class for testing the quizaccess_startlimit rule functionality.
  */
-class rule_test extends advanced_testcase {
+class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test the make method returns null when quiz has no timeopen.
      */
