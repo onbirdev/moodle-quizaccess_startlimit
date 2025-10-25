@@ -40,8 +40,8 @@ Students will now be restricted to starting a new attempt only within the define
 
 ## Requirements
 
-- Moodle 3.11 or higher
-- PHP 7.4 or higher
+- Moodle 4.2 or higher
+- PHP 8.0 or higher
 
 
 ## Translations available

@@ -24,9 +24,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
+use mod_quiz\local\access_rule_base;
+use mod_quiz\quiz_settings;
 
 /**
  * Quiz access rule to enforce a time limit for starting an attempt.
@@ -34,7 +33,7 @@ require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
  * This rule restricts students from starting an attempt after a specified period
  * from when the quiz is opened.
  */
-class quizaccess_startlimit extends quiz_access_rule_base {
+class quizaccess_startlimit extends access_rule_base {
     /** @var int $startlimit The maximum allowed time (in seconds) to start the attempt after the quiz opens. */
     protected int $startlimit;
 
@@ -43,12 +42,12 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      *
      * Returns null if the rule does not apply (quiz time not set or user can ignore time limits).
      *
-     * @param quiz $quizobj The quiz object.
+     * @param quiz_settings $quizobj The quiz object.
      * @param int $timenow Current timestamp.
      * @param bool $canignoretimelimits Whether the user can ignore time limits.
      * @return self|null
      */
-    public static function make(quiz $quizobj, $timenow, $canignoretimelimits): ?self {
+    public static function make(quiz_settings $quizobj, $timenow, $canignoretimelimits): ?self {
         global $DB;
 
         if (empty($quizobj->get_quiz()->timeopen) || $canignoretimelimits) {
@@ -66,7 +65,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
     /**
      * Constructor.
      *
-     * @param quiz $quizobj The quiz object.
+     * @param quiz_settings $quizobj The quiz object.
      * @param int $timenow Current timestamp.
      * @param int $startlimit The maximum allowed start time in seconds.
      */
@@ -84,7 +83,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * @return string false if access should be allowed, a message explaining the
      *       reason if access should be prevented.
      */
-    public function prevent_new_attempt($numprevattempts, $lastattempt) {
+    public function prevent_new_attempt($numprevattempts, $lastattempt): false|string {
         $quiz = $this->quiz;
 
         if (empty($quiz->timeopen) || empty($this->startlimit)) {
@@ -128,7 +127,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      *
      * {@inheritdoc}
      */
-    public function description() {
+    public function description(): lang_string|string|null {
         $quiz = $this->quizobj->get_quiz();
         $limit = (int) $quiz->startlimit;
 
@@ -144,7 +143,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * @param mod_quiz_mod_form $quizform the quiz settings form that is being built.
      * @param MoodleQuickForm $mform the wrapped MoodleQuickForm.
      */
-    public static function add_settings_form_fields(mod_quiz_mod_form $quizform, MoodleQuickForm $mform) {
+    public static function add_settings_form_fields(mod_quiz_mod_form $quizform, MoodleQuickForm $mform): void {
         $mform->addElement('duration', 'startlimit', get_string('startlimit', 'quizaccess_startlimit'), [
             'optional' => true,
         ]);
@@ -156,7 +155,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * @param int $quizid the id of the quiz we are loading settings for. This
      *      can also be accessed as quiz.id in the SQL. (quiz is a table alisas for {quiz}.)
      */
-    public static function get_settings_sql($quizid) {
+    public static function get_settings_sql($quizid): array {
         return ['qa_sl.startlimit', 'LEFT JOIN {quizaccess_startlimit} qa_sl ON qa_sl.quizid = quiz.id', []];
     }
 
@@ -165,7 +164,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * @param object $quiz the data from the quiz form, including $quiz->id
      *       which is the id of the quiz being saved.
      */
-    public static function save_settings($quiz) {
+    public static function save_settings($quiz): void {
         global $DB;
 
         $record = $DB->get_record('quizaccess_startlimit', ['quizid' => $quiz->id]);
@@ -186,7 +185,7 @@ class quizaccess_startlimit extends quiz_access_rule_base {
      * @param object $quiz the data from the database, including $quiz->id
      *       which is the id of the quiz being deleted.
      */
-    public static function delete_settings($quiz) {
+    public static function delete_settings($quiz): void {
         global $DB;
         $DB->delete_records('quizaccess_startlimit', ['quizid' => $quiz->id]);
     }

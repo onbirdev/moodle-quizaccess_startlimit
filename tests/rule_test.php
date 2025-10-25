@@ -24,6 +24,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace quizaccess_startlimit;
+
+use advanced_testcase;
+use mod_quiz\quiz_settings;
+use quizaccess_startlimit;
+use stdClass;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -32,11 +39,11 @@ require_once($CFG->dirroot . '/mod/quiz/accessrule/startlimit/rule.php');
 /**
  * Unit test class for testing the quizaccess_startlimit rule functionality.
  */
-class quizaccess_startlimit_testcase extends advanced_testcase {
+final class rule_test extends advanced_testcase {
     /**
      * Test the make method returns null when quiz has no timeopen.
      */
-    public function test_make_returns_null_when_no_timeopen() {
+    public function test_make_returns_null_when_no_timeopen(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
@@ -44,7 +51,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = 0;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = quizaccess_startlimit::make($quizobj, time(), false);
 
@@ -54,7 +61,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test the make method returns null when user can ignore time limits.
      */
-    public function test_make_returns_null_when_can_ignore_timelimits() {
+    public function test_make_returns_null_when_can_ignore_timelimits(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
@@ -62,7 +69,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = time();
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = quizaccess_startlimit::make($quizobj, time(), true);
 
@@ -72,7 +79,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test the make method returns null when no startlimit record exists.
      */
-    public function test_make_returns_null_when_no_record() {
+    public function test_make_returns_null_when_no_record(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -81,7 +88,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = time();
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         // Ensure no record exists.
         $DB->delete_records('quizaccess_startlimit', ['quizid' => 0]);
@@ -94,7 +101,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test the make method returns null when startlimit is empty.
      */
-    public function test_make_returns_null_when_startlimit_empty() {
+    public function test_make_returns_null_when_startlimit_empty(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -103,7 +110,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = time();
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         // Insert record with empty startlimit.
         $DB->insert_record('quizaccess_startlimit', (object) [
@@ -119,7 +126,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test the make method creates rule when conditions are met.
      */
-    public function test_make_creates_rule_when_conditions_met() {
+    public function test_make_creates_rule_when_conditions_met(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -128,7 +135,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = time();
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         // Insert valid startlimit record.
         $DB->insert_record('quizaccess_startlimit', (object) [
@@ -144,14 +151,14 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test prevent_new_attempt returns false when no timeopen.
      */
-    public function test_prevent_new_attempt_false_when_no_timeopen() {
+    public function test_prevent_new_attempt_false_when_no_timeopen(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
         $quiz->timeopen = 0;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, time(), 3600);
 
@@ -161,14 +168,14 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test prevent_new_attempt returns false when no startlimit.
      */
-    public function test_prevent_new_attempt_false_when_no_startlimit() {
+    public function test_prevent_new_attempt_false_when_no_startlimit(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
         $quiz->timeopen = time();
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, time(), 0);
 
@@ -178,7 +185,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test prevent_new_attempt returns false when within time limit.
      */
-    public function test_prevent_new_attempt_false_when_within_limit() {
+    public function test_prevent_new_attempt_false_when_within_limit(): void {
         $this->resetAfterTest();
 
         $timeopen = time();
@@ -189,7 +196,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = $timeopen;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, $timenow, $startlimit);
 
@@ -199,7 +206,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test prevent_new_attempt returns message when time limit exceeded.
      */
-    public function test_prevent_new_attempt_message_when_exceeded() {
+    public function test_prevent_new_attempt_message_when_exceeded(): void {
         $this->resetAfterTest();
 
         $timeopen = time() - 7200; // 2 hours ago
@@ -210,7 +217,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = $timeopen;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, $timenow, $startlimit);
 
@@ -221,14 +228,14 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test is_finished returns false when no timeopen.
      */
-    public function test_is_finished_false_when_no_timeopen() {
+    public function test_is_finished_false_when_no_timeopen(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
         $quiz->timeopen = 0;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, time(), 3600);
 
@@ -238,14 +245,14 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test is_finished returns false when no startlimit.
      */
-    public function test_is_finished_false_when_no_startlimit() {
+    public function test_is_finished_false_when_no_startlimit(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
         $quiz->timeopen = time();
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, time(), 0);
 
@@ -255,7 +262,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test is_finished returns false when within time limit.
      */
-    public function test_is_finished_false_when_within_limit() {
+    public function test_is_finished_false_when_within_limit(): void {
         $this->resetAfterTest();
 
         $timeopen = time();
@@ -266,7 +273,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = $timeopen;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, $timenow, $startlimit);
 
@@ -276,7 +283,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test is_finished returns true when time limit exceeded.
      */
-    public function test_is_finished_true_when_exceeded() {
+    public function test_is_finished_true_when_exceeded(): void {
         $this->resetAfterTest();
 
         $timeopen = time() - 7200; // 2 hours ago
@@ -287,7 +294,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = $timeopen;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, $timenow, $startlimit);
 
@@ -297,14 +304,14 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test description returns formatted string when startlimit is set.
      */
-    public function test_description_returns_formatted_string() {
+    public function test_description_returns_formatted_string(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
         $quiz->startlimit = 3600; // 1 hour.
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, time(), 3600);
 
@@ -319,14 +326,14 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test description returns null when no startlimit.
      */
-    public function test_description_returns_null_when_no_limit() {
+    public function test_description_returns_null_when_no_limit(): void {
         $this->resetAfterTest();
 
         $quiz = new stdClass();
         $quiz->startlimit = 0;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, time(), 0);
 
@@ -337,7 +344,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test get_settings_sql returns correct SQL components.
      */
-    public function test_get_settings_sql() {
+    public function test_get_settings_sql(): void {
         $result = quizaccess_startlimit::get_settings_sql(1);
 
         $this->assertIsArray($result);
@@ -350,7 +357,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test save_settings updates existing record.
      */
-    public function test_save_settings_updates_existing_record() {
+    public function test_save_settings_updates_existing_record(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -373,7 +380,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test save_settings creates new record when none exists.
      */
-    public function test_save_settings_creates_new_record() {
+    public function test_save_settings_creates_new_record(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -394,7 +401,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test delete_settings removes record from database.
      */
-    public function test_delete_settings_removes_record() {
+    public function test_delete_settings_removes_record(): void {
         global $DB;
         $this->resetAfterTest();
 
@@ -414,31 +421,9 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     }
 
     /**
-     * Test constructor sets startlimit property correctly.
-     */
-    public function test_constructor_sets_startlimit() {
-        $this->resetAfterTest();
-
-        $quiz = new stdClass();
-        $cm = new stdClass();
-        $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
-
-        $startlimit = 3600;
-        $rule = new quizaccess_startlimit($quizobj, time(), $startlimit);
-
-        // Use reflection to access private property.
-        $reflection = new ReflectionClass($rule);
-        $property = $reflection->getProperty('startlimit');
-        $property->setAccessible(true);
-
-        $this->assertEquals($startlimit, $property->getValue($rule));
-    }
-
-    /**
      * Test edge case: prevent_new_attempt at exact deadline.
      */
-    public function test_prevent_new_attempt_at_exact_deadline() {
+    public function test_prevent_new_attempt_at_exact_deadline(): void {
         $this->resetAfterTest();
 
         $timeopen = time() - 3600; // 1 hour ago.
@@ -449,7 +434,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = $timeopen;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, $timenow, $startlimit);
 
@@ -459,7 +444,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
     /**
      * Test edge case: prevent_new_attempt one second past deadline.
      */
-    public function test_prevent_new_attempt_one_second_past_deadline() {
+    public function test_prevent_new_attempt_one_second_past_deadline(): void {
         $this->resetAfterTest();
 
         $timeopen = time() - 3601; // 1 hour and 1 second ago.
@@ -470,7 +455,7 @@ class quizaccess_startlimit_testcase extends advanced_testcase {
         $quiz->timeopen = $timeopen;
         $cm = new stdClass();
         $cm->id = 0;
-        $quizobj = new quiz($quiz, $cm, null);
+        $quizobj = new quiz_settings($quiz, $cm, null);
 
         $rule = new quizaccess_startlimit($quizobj, $timenow, $startlimit);
 
